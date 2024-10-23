@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>that word</title>
+    <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9J005LjM2NyAyLjI1aDUuMjY2YzEuMDkyIDAgMS45NTggMCAyLjY1NS4wNTcuNzE0LjA1OCAxLjMxNy4xOCAxLjg2OS40NmE0Ljc1IDQuNzUgMCAwIDEgMi4wNzUgMi4wNzdjLjI4MS41NS40MDMgMS4xNTQuNDYxIDEuODY4LjA1Ny42OTcuMDU3IDEuNTYzLjA1NyAyLjY1NXY1LjI2NmMwIDEuMDkyIDAgMS45NTgtLjA1NyAyLjY1NS0uMDU4LjcxNC0uMTggMS4zMTctLjQ2IDEuODY5YTQuNzUgNC43NSAwIDAgMS0yLjA3NiAyLjA3NWMtLjU1Mi4yODEtMS4xNTUuNDAzLTEuODY5LjQ2MS0uNjk3LjA1Ny0xLjU2My4wNTctMi42NTUuMDU3SDkuMzY3Yy0xLjA5MiAwLTEuOTU4IDAtMi42NTUtLjA1Ny0uNzE0LS4wNTgtMS4zMTctLjE4LTEuODY4LS40NmE0Ljc1IDQuNzUgMCAwIDEtMi4wNzYtMi4wNzZjLS4yODEtLjU1Mi0uNDAzLTEuMTU1LS40NjEtMS44NjktLjA1Ny0uNjk3LS4wNTctMS41NjMtLjA1Ny0yLjY1NVY5LjM2N2MwLTEuMDkyIDAtMS45NTguMDU3LTIuNjU1LjA1OC0uNzE0LjE4LTEuMzE3LjQ2LTEuODY4YTQuNzUgNC43NSAwIDAgMSAyLjA3Ny0yLjA3NmMuNTUtLjI4MSAxLjE1NC0uNDAzIDEuODY4LS40NjEuNjk3LS4wNTcgMS41NjMtLjA1NyAyLjY1NS0uMDU3TTkuNzUgOGEuNzUuNzUgMCAwIDAtMS41IDB2OGEuNzUuNzUgMCAwIDAgMS4zNS40NWwyLjQtMy4yIDIuNCAzLjJhLjc1Ljc1IDAgMCAwIDEuMzUtLjQ1VjhhLjc1Ljc1IDAgMCAwLTEuNSAwdjUuNzVsLTEuNjUtMi4yYS43NS43NSAwIDAgMC0xLjIgMGwtMS42NSAyLjJ6Jy8+PC9zdmc+" />
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+            background: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+
+        .word-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .word {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+            background: black;
+        }
+
+        .word.synonyms {
+            background: #1b731e;
+        }
+
+        .word.antonyms {
+            background: #f44336;
+        }
+
+        .word.related {
+            background: #2196F3;
+        }
+
+        .word.kindof {
+            background: #1c3473;
+        }
+
+        .word.moregeneral {
+            background: #7b7b7b;
+        }
+
+        .word.similar_meaning {
+            background: #4CAF50;
+        }
+
+        .word:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        #error {
+            color: #cc0000;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        #loading {
+            text-align: center;
+            color: #666;
+            margin: 1rem 0;
+        }
+
+        .history {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .history-item {
+            font-size: 0.9rem;
+            padding: 0.25rem 0.75rem;
+            background: #eee;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            background: #ddd;
+        }
+
+        footer {
+            text-align: center;
+            font-size: smaller;
+            margin-top: 1em;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>that word...</h1>
+        <div class="history" id="history"></div>
+        <form class="search-form" id="searchForm">
+            <input type="text" id="wordInput" placeholder="Enter a word..." required>
+            <button type="submit">Explore</button>
+        </form>
+        <div id="loading" style="display: none">Loading...</div>
+        <div id="error"></div>
+        <div id="wordCloud" class="word-cloud"></div>
+    </div>
+    <footer>
+          by <a href="https://rakhim.org/">Rakhim D.</a> (<a href="https://twitter.com/freetonik">@freetonik</a>) | <a href="https://github.com/freetonik/thatword">source code</a>
+    </footer>
+
+    <script>
+        const state = {
+            history: [],
+            maxHistory: 10
+        };
+
+        async function fetchWordData(word) {
+            word = word.replace(/\s+/g, '+');
+
+            try {
+                const [synonyms, antonyms, related, kindof, moregeneral, similar_meaning] = await Promise.all([
+                    fetch(`https://api.datamuse.com/words?rel_syn=${word}&max=10`).then(r => r.json()),
+                    fetch(`https://api.datamuse.com/words?rel_ant=${word}&max=10`).then(r => r.json()),
+                    fetch(`https://api.datamuse.com/words?rel_trg=${word}&max=15`).then(r => r.json()),
+                    fetch(`https://api.datamuse.com/words?rel_spc=${word}&max=15`).then(r => r.json()),
+                    fetch(`https://api.datamuse.com/words?rel_gen=${word}&max=15`).then(r => r.json()),
+                    fetch(`https://api.datamuse.com/words?ml=${word}&max=15`).then(r => r.json())
+                ]);
+
+                return {
+                    synonyms: synonyms.map(w => w.word),
+                    antonyms: antonyms.map(w => w.word),
+                    kindof: kindof.map(w => w.word)
+                        .filter(w => !synonyms.map(s => s.word).includes(w)),
+                    moregeneral: moregeneral.map(w => w.word),
+                    similar_meaning: similar_meaning.map(w => w.word),
+                    related: related.map(w => w.word)
+                        .filter(w => !synonyms.map(s => s.word).includes(w))
+                };
+            } catch (error) {
+                console.error('API Error:', error);
+                throw new Error('Failed to fetch related words');
+            }
+        }
+
+        function updateHistory(word) {
+            if (!state.history.includes(word)) {
+                state.history.unshift(word);
+                if (state.history.length > state.maxHistory) {
+                    state.history.pop();
+                }
+                renderHistory();
+            }
+        }
+
+        function renderHistory() {
+            const historyEl = document.getElementById('history');
+            historyEl.innerHTML = state.history
+                .map(word => `<span class="history-item" onclick="searchWord('${word}')">${word}</span>`)
+                .join('');
+        }
+
+        function renderWordCloud(data) {
+            const cloudEl = document.getElementById('wordCloud');
+            cloudEl.innerHTML = '';
+
+            Object.entries(data).forEach(([category, words]) => {
+                if (words && words.length > 0) {
+                    words.forEach(word => {
+                        const wordEl = document.createElement('span');
+                        wordEl.className = `word ${category}`;
+                        wordEl.textContent = word;
+                        wordEl.onclick = () => searchWord(word);
+                        cloudEl.appendChild(wordEl);
+                    });
+                }
+            });
+        }
+
+        async function searchWord(word) {
+            const loadingEl = document.getElementById('loading');
+            const errorEl = document.getElementById('error');
+            const inputEl = document.getElementById('wordInput');
+
+            loadingEl.style.display = 'block';
+            errorEl.textContent = '';
+            inputEl.value = word;
+
+            try {
+                const data = await fetchWordData(word);
+
+                const hasResults = Object.values(data).some(arr => arr.length > 0);
+                if (!hasResults) {
+                    throw new Error('No related words found');
+                }
+
+                renderWordCloud(data);
+                updateHistory(word);
+                updateURL(word);
+            } catch (error) {
+                console.error('Search Error:', error);
+                errorEl.textContent = error.message || 'Could not find related words. Please try another word.';
+                document.getElementById('wordCloud').innerHTML = '';
+            } finally {
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const word = document.getElementById('wordInput').value.trim().toLowerCase();
+            if (word) {
+                searchWord(word);
+            }
+        });
+
+        function updateURL(word) {
+            const url = new URL(window.location);
+            url.searchParams.set('word', word);
+            window.history.pushState({}, '', url);
+        }
+
+        function getWordFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('word') || '';
+        }
+
+        window.addEventListener('popstate', function() {
+            const word = getWordFromURL();
+            if (word) {
+                searchWord(word);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const initialWord = getWordFromURL();
+            if (initialWord) {
+                searchWord(initialWord);
+            }
+        });
+    </script>
+</body>
+</html>
